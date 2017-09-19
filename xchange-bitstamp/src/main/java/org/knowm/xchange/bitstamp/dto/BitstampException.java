@@ -28,21 +28,11 @@ public class BitstampException extends HttpStatusExceptionSupport {
   private static String getMessage(Object errors) {
     if (errors instanceof Map) {
       try {
-        Map<String, Iterable> map = (Map<String, Iterable>) errors;
-        final StringBuilder sb = new StringBuilder();
-        for (String key : map.keySet()) {
-          for (Object msg : map.get(key)) {
-            if (sb.length() > 0) {
-              sb.append(" -- ");
-            }
-            sb.append(msg);
-          }
-        }
-        return sb.toString();
+        return BitstampNoteHelpToFixError.addNote((Map<String, Iterable>) errors);
       } catch (Exception ignore) {
       }
     }
-    return String.valueOf(errors);
+    return BitstampNoteHelpToFixError.addNote(String.valueOf(errors));
   }
 
   public Map<String, Collection<String>> getErrors() {
